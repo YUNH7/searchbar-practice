@@ -5,6 +5,11 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     padding: 0;
     margin: 0;    
+    font-family: 'Spoqa Han Sans', 'Sans-serif';
+  }
+
+  #root {
+    background-color: rgb(202, 233, 255);
   }
 
   ul, li {
