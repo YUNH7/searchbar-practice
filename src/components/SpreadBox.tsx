@@ -1,6 +1,7 @@
 import { styled } from 'styled-components';
 import { KeyWords, SearchWords, SearchWord } from '.';
 import { recommendedWords } from '../constants/recommendedWords';
+import { Trial } from '../hooks/useSearch';
 
 const Box = styled.div`
   position: absolute;
@@ -34,33 +35,44 @@ const NoWord = styled.p`
   color: var(--gray);
 `;
 
-const SpreadBox = () => {
+type Search = {
+  word: string;
+  historyWords: Trial[];
+  foundTrials: Trial[];
+};
+
+const SpreadBox = ({ word, historyWords, foundTrials }: Search) => {
   return (
     <Box>
-      <div>
-        1<SubTitle>최근 검색어</SubTitle>
-        1-1<NoWord>최근 검색어가 없습니다</NoWord>
-        1-2
-        <SearchWords
-          words={[
-            { sickCd: '1', sickNm: '간' },
-            { sickCd: '2', sickNm: '심장' },
-          ]}
-        />
-        2<SearchWord>현재검색어</SearchWord>
-      </div>
-      <hr />
-      <div>
-        <SubTitle>추천 검색어{'로 검색해보세요'}</SubTitle>1
-        <KeyWords words={recommendedWords} />
-        2
-        <SearchWords
-          words={[
-            { sickCd: '1', sickNm: '추천1' },
-            { sickCd: '2', sickNm: '추천2' },
-          ]}
-        />
-      </div>
+      {word ? (
+        <>
+          <div>
+            <SearchWord>{word}</SearchWord>
+          </div>
+          {!!foundTrials.length && (
+            <div>
+              <SubTitle>추천 검색어</SubTitle>
+              <SearchWords words={foundTrials} />
+            </div>
+          )}
+        </>
+      ) : (
+        <>
+          <div>
+            <SubTitle>최근 검색어</SubTitle>
+            {historyWords.length ? (
+              <SearchWords words={historyWords} />
+            ) : (
+              <NoWord>최근 검색어가 없습니다</NoWord>
+            )}
+          </div>
+          <hr />
+          <div>
+            <SubTitle>추천 검색어로 검색해보세요</SubTitle>
+            <KeyWords words={recommendedWords} />
+          </div>
+        </>
+      )}
     </Box>
   );
 };

@@ -1,6 +1,7 @@
 import { styled } from 'styled-components';
 import { SpreadBox } from '.';
 import { ReactComponent as SearchIcon } from '../assets/search.svg';
+import useSearch from '../hooks/useSearch';
 
 const Container = styled.div`
   position: relative;
@@ -81,14 +82,24 @@ const SearchButton = styled.button`
 `;
 
 const SearchBar = () => {
+  const { nowWord, searchHistory, foundTrials, searchWord, savePreWord } = useSearch();
+
   return (
     <Container>
-      <SearchInput placeholder="질환명을 입력해 주세요." />
-      <SearchButton>
+      <SearchInput
+        placeholder="질환명을 입력해 주세요."
+        onChange={e => searchWord(e.target.value)}
+        onKeyUp={e => e.key === 'Enter' && savePreWord()}
+      />
+      <SearchButton onClick={() => savePreWord()}>
         <span>검색버튼</span>
         <SearchIcon />
       </SearchButton>
-      <SpreadBox />
+      <SpreadBox
+        word={nowWord}
+        historyWords={searchHistory.slice(0, 7).reverse()}
+        foundTrials={foundTrials.slice(0, 7)}
+      />
     </Container>
   );
 };
