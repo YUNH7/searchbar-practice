@@ -1,6 +1,5 @@
 import { styled } from 'styled-components';
-import Title from './Title';
-import SearchBar from './SearchBar';
+import { SearchBar, Title } from '.';
 
 const Container = styled.div`
   display: flex;

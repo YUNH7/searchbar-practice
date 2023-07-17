@@ -1,14 +1,16 @@
 import { styled } from 'styled-components';
+import { SpreadBox } from '.';
 import { ReactComponent as SearchIcon } from '../assets/search.svg';
 
 const Container = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   width: 490px;
   padding: 8px 8px 8px 24px;
   border-radius: 42px;
-  border: 2px solid white;
-  background-color: white;
+  border: 2px solid var(--white);
+  background-color: var(--white);
 
   &::before {
     content: '';
@@ -20,9 +22,13 @@ const Container = styled.div`
   }
 
   &:focus-within {
-    border-color: #007be9;
+    border-color: var(--main_blue);
     &::before {
       display: none;
+    }
+
+    > div {
+      display: block;
     }
   }
 `;
@@ -32,10 +38,9 @@ const SearchInput = styled.input`
   outline: none;
   border: none;
   font-size: 1.125rem;
-  letter-spacing: -0.018em;
 
   &::placeholder {
-    color: #a7afb7;
+    color: var(--gray);
   }
   &:focus {
     &::placeholder {
@@ -47,7 +52,7 @@ const SearchButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #007be9;
+  background-color: var(--main_blue);
   border-radius: 50px;
   width: 48px;
   height: 48px;
@@ -71,7 +76,7 @@ const SearchButton = styled.button`
   > svg {
     width: 21px;
     height: 21px;
-    fill: white;
+    fill: var(--white);
   }
 `;
 
@@ -83,6 +88,7 @@ const SearchBar = () => {
         <span>검색버튼</span>
         <SearchIcon />
       </SearchButton>
+      <SpreadBox />
     </Container>
   );
 };
