@@ -11,6 +11,7 @@ export const SearchWord = styled.p`
   font-weight: normal;
   margin: 0 -1.5rem;
   padding: 0.5rem 1.5rem;
+  cursor: pointer;
 
   &:hover {
     background-color: var(--skyblue);
@@ -25,16 +26,17 @@ export const SearchWord = styled.p`
   }
 `;
 
-type Props = {
+interface Props {
   words: Trial[];
-};
+  searchWord: (word: string) => void;
+}
 
-const SearchWords = ({ words }: Props) => {
+const SearchWords = ({ words, searchWord }: Props) => {
   return (
     <WordsBox>
       {words.map(word => (
         <li key={word.sickCd || word.sickNm}>
-          <SearchWord>{word.sickNm}</SearchWord>
+          <SearchWord onClick={() => searchWord(word.sickNm)}>{word.sickNm}</SearchWord>
         </li>
       ))}
     </WordsBox>

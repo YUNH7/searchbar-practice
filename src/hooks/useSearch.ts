@@ -25,31 +25,44 @@ const useSearch = () => {
     const cached: Caching = reqHistory[word.slice(0, 1)];
     let trials: Trial[] = [];
 
+    const getTrials = async (word: string) => {
+      try {
+        await searchTrial(word).then(res => {
+          trials = res.data;
+          setReqHistory({ ...reqHistory, [word]: { date: new Date(), data: trials } });
+        });
+      } catch (e: any) {
+        trials = [];
+      }
+    };
+
     if (word.length === 1) {
       if (cached && +new Date() - +cached.date < 5 * 60 * 1000) {
         trials = cached.data;
-      } else {
-        try {
-          await searchTrial(word).then(res => {
-            trials = res.data;
-            setReqHistory({ ...reqHistory, [word]: { date: new Date(), data: trials } });
-          });
-        } catch (e: any) {
-          trials = [];
-        }
-      }
+      } else await getTrials(word);
     } else if (word.length > 1) {
-      trials = cached.data.filter(el => el.sickNm.includes(word));
+      if (cached) trials = cached.data.filter(el => el.sickNm.includes(word));
+      else await getTrials(word);
     }
 
     setFoundTrials(trials);
   };
 
-  const savePreWord = () =>
-    !searchHistory.some(word => word.sickNm === nowWord) &&
-    setSearchHistory(pre => [...pre, { sickNm: nowWord }]);
+  const savePreWord = (word: string = nowWord) =>
+    !searchHistory.some(preWord => preWord.sickNm === word) &&
+    setSearchHistory(pre => [...pre, { sickNm: word }]);
 
-  return { nowWord, searchHistory, foundTrials, searchWord, savePreWord };
+  const searchKeyWord = (word: string) => {
+    searchWord(word);
+    savePreWord(word);
+  };
+  const spreadProps = {
+    nowWord,
+    historyWords: searchHistory.slice(0, 7).reverse(),
+    foundTrials: foundTrials.slice(0, 7),
+    searchKeyWord,
+  };
+  return { nowWord, searchWord, savePreWord, spreadProps };
 };
 
 export default useSearch;

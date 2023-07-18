@@ -27,10 +27,6 @@ const Container = styled.div`
     &::before {
       display: none;
     }
-
-    > div {
-      display: block;
-    }
   }
 `;
 const SearchInput = styled.input`
@@ -81,13 +77,20 @@ const SearchButton = styled.button`
   }
 `;
 
-const SearchBar = () => {
-  const { nowWord, searchHistory, foundTrials, searchWord, savePreWord } = useSearch();
+interface SpreadProps {
+  spread: boolean;
+  setSpread: (status: boolean) => void;
+}
+
+const SearchBar = ({ spread, setSpread }: SpreadProps) => {
+  const { nowWord, searchWord, savePreWord, spreadProps } = useSearch();
 
   return (
-    <Container>
+    <Container onClick={e => e.stopPropagation()}>
       <SearchInput
+        value={nowWord}
         placeholder="질환명을 입력해 주세요."
+        onClick={() => setSpread(true)}
         onChange={e => searchWord(e.target.value)}
         onKeyUp={e => e.key === 'Enter' && savePreWord()}
       />
@@ -95,11 +98,7 @@ const SearchBar = () => {
         <span>검색버튼</span>
         <SearchIcon />
       </SearchButton>
-      <SpreadBox
-        word={nowWord}
-        historyWords={searchHistory.slice(0, 7).reverse()}
-        foundTrials={foundTrials.slice(0, 7)}
-      />
+      <SpreadBox spread={spread} {...spreadProps} />
     </Container>
   );
 };

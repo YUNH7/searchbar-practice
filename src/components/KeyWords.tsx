@@ -11,17 +11,21 @@ const KeyWord = styled.li`
   font-size: 0.9rem;
   padding: 0.4rem 0.8rem;
   border-radius: 20px;
+  cursor: pointer;
 `;
 
-type Props = {
+interface Props {
   words: string[];
-};
+  searchWord: (word: string) => void;
+}
 
-const KeyWords = ({ words }: Props) => {
+const KeyWords = ({ words, searchWord }: Props) => {
   return (
     <WordsBox>
       {words.map(word => (
-        <KeyWord key={word}>{word}</KeyWord>
+        <KeyWord key={word} role="button" onClick={() => searchWord(word)}>
+          {word}
+        </KeyWord>
       ))}
     </WordsBox>
   );

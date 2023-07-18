@@ -3,9 +3,9 @@ import { KeyWords, SearchWords, SearchWord } from '.';
 import { recommendedWords } from '../constants/recommendedWords';
 import { Trial } from '../hooks/useSearch';
 
-const Box = styled.div`
+const Box = styled.div<{ display: string }>`
   position: absolute;
-  display: none;
+  display: ${props => props.display};
   width: 100%;
   padding: 1.5rem;
   left: 0;
@@ -35,33 +35,33 @@ const NoWord = styled.p`
   color: var(--gray);
 `;
 
-type Search = {
-  word: string;
+interface Search {
+  spread: boolean;
+  nowWord: string;
   historyWords: Trial[];
   foundTrials: Trial[];
-};
+  searchKeyWord: (word: string) => void;
+}
 
-const SpreadBox = ({ word, historyWords, foundTrials }: Search) => {
+const SpreadBox = ({ spread, nowWord, historyWords, foundTrials, searchKeyWord }: Search) => {
   return (
-    <Box>
-      {word ? (
+    <Box display={spread ? 'block' : 'none'}>
+      {nowWord ? (
         <>
           <div>
-            <SearchWord>{word}</SearchWord>
+            <SearchWord>{nowWord}</SearchWord>
           </div>
-          {!!foundTrials.length && (
-            <div>
-              <SubTitle>추천 검색어</SubTitle>
-              <SearchWords words={foundTrials} />
-            </div>
-          )}
+          <div>
+            <SubTitle>{!!foundTrials.length ? '추천 검색어' : '검색어 없음'}</SubTitle>
+            <SearchWords words={foundTrials} searchWord={searchKeyWord} />
+          </div>
         </>
       ) : (
         <>
           <div>
             <SubTitle>최근 검색어</SubTitle>
             {historyWords.length ? (
-              <SearchWords words={historyWords} />
+              <SearchWords words={historyWords} searchWord={searchKeyWord} />
             ) : (
               <NoWord>최근 검색어가 없습니다</NoWord>
             )}
@@ -69,7 +69,7 @@ const SpreadBox = ({ word, historyWords, foundTrials }: Search) => {
           <hr />
           <div>
             <SubTitle>추천 검색어로 검색해보세요</SubTitle>
-            <KeyWords words={recommendedWords} />
+            <KeyWords words={recommendedWords} searchWord={searchKeyWord} />
           </div>
         </>
       )}
