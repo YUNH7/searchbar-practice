@@ -27,16 +27,24 @@ export const SearchWord = styled.p`
 `;
 
 interface Props {
+  nowWord?: string;
   words: Trial[];
   searchWord: (word: string) => void;
 }
 
-const SearchWords = ({ words, searchWord }: Props) => {
+const SearchWords = ({ nowWord, words, searchWord }: Props) => {
   return (
     <WordsBox>
       {words.map(word => (
         <li key={word.sickCd || word.sickNm}>
-          <SearchWord onClick={() => searchWord(word.sickNm)}>{word.sickNm}</SearchWord>
+          <SearchWord onClick={() => searchWord(word.sickNm)}>
+            {nowWord
+              ? word.sickNm
+                  .replaceAll(nowWord, `*#${nowWord}*#`)
+                  .split('*#')
+                  .map((el, i) => (el === nowWord ? <b key={i}>{el}</b> : el))
+              : word.sickNm}
+          </SearchWord>
         </li>
       ))}
     </WordsBox>

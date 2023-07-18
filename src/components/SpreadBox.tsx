@@ -49,11 +49,13 @@ const SpreadBox = ({ spread, nowWord, historyWords, foundTrials, searchKeyWord }
       {nowWord ? (
         <>
           <div>
-            <SearchWord>{nowWord}</SearchWord>
+            <SearchWord onClick={() => searchKeyWord(nowWord)}>
+              <b>{nowWord}</b>
+            </SearchWord>
           </div>
           <div>
             <SubTitle>{!!foundTrials.length ? '추천 검색어' : '검색어 없음'}</SubTitle>
-            <SearchWords words={foundTrials} searchWord={searchKeyWord} />
+            <SearchWords nowWord={nowWord} words={foundTrials} searchWord={searchKeyWord} />
           </div>
         </>
       ) : (
