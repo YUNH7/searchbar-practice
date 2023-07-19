@@ -6,7 +6,7 @@
 
 ## 프로젝트 개요
 
-### [배포 링크]()
+### [배포 링크](https://searchbar-practice.vercel.app/)
 
 > **서버 실행 필요([서버 실행 방법](https://github.com/walking-sunset/assignment-api))**
 
