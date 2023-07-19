@@ -1,18 +1,16 @@
 import { useState } from 'react';
 import searchTrial, { Trial } from '../apis/search';
+import useDebounce from './useDebounce';
 
 const useSearch = () => {
   const [nowWord, setNowWord] = useState('');
   const [searchHistory, setSearchHistory] = useState<Trial[]>([]);
   const [foundTrials, setFoundTrials] = useState<Trial[]>([]);
-  const [timer, setTimer] = useState(-1);
+  const debounce = useDebounce(300);
 
   const searchWord = async (word: string) => {
     setNowWord(word);
-
-    clearTimeout(timer);
-    const newTimer = setTimeout(() => searchTrial(word).then(data => setFoundTrials(data)), 300);
-    setTimer(newTimer);
+    debounce(() => searchTrial(word).then(data => setFoundTrials(data)));
   };
 
   const savePreWord = (word: string = nowWord) =>
