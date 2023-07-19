@@ -10,14 +10,14 @@ const WordsBox = styled.ul`
     outline: none;
   }
 `;
-export const SearchWord = styled.p<{ bgcolor?: boolean }>`
+export const SearchWord = styled.p<{ bgcolor?: string }>`
   cursor: pointer;
   display: flex;
   align-items: center;
   font-weight: normal;
   margin: 0 -1.5rem;
   padding: 0.5rem 1.5rem;
-  background-color: ${props => (props.bgcolor ? 'var(--skyblue)' : 'inherit')};
+  background-color: ${props => (props.bgcolor ? props.bgcolor : 'inherit')};
 
   &:hover {
     background-color: var(--skyblue);
@@ -64,7 +64,10 @@ const SearchWords = ({ listRef, nowWord, words, searchWord }: Props) => {
     >
       {words.map((word, i) => (
         <li key={word.sickCd || word.sickNm}>
-          <SearchWord bgcolor={tabIndex === i} onClick={() => searchWord(word.sickNm)}>
+          <SearchWord
+            bgcolor={tabIndex === i ? 'var(--skyblue)' : undefined}
+            onClick={() => searchWord(word.sickNm)}
+          >
             <span>
               {nowWord
                 ? word.sickNm
