@@ -2,6 +2,7 @@ import { KeyboardEvent, useRef } from 'react';
 import { styled } from 'styled-components';
 import { SpreadBox } from '.';
 import { ReactComponent as SearchIcon } from '../assets/search.svg';
+import searchIcon from '../assets/search.svg';
 import useSearch from '../hooks/useSearch';
 
 const Container = styled.div`
@@ -20,7 +21,7 @@ const Container = styled.div`
     height: 1.125rem;
     margin-right: 12px;
     filter: invert(77%) sepia(13%) saturate(189%) hue-rotate(169deg) brightness(90%) contrast(89%);
-    background-image: url('/src/assets/search.svg');
+    background-image: url(${searchIcon});
   }
 
   &:focus-within {

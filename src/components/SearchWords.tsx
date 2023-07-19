@@ -1,6 +1,7 @@
 import { KeyboardEvent, LegacyRef, useState } from 'react';
 import { styled } from 'styled-components';
 import { Trial } from '../apis/search';
+import searchIcon from '../assets/search.svg';
 
 const WordsBox = styled.ul`
   display: flex;
@@ -28,7 +29,7 @@ export const SearchWord = styled.p<{ bgcolor?: string }>`
     height: 1.125rem;
     margin-right: 12px;
     filter: invert(77%) sepia(13%) saturate(189%) hue-rotate(169deg) brightness(90%) contrast(89%);
-    background-image: url('/src/assets/search.svg');
+    background-image: url(${searchIcon});
   }
 `;
 
