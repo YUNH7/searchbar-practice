@@ -18,7 +18,7 @@ export const SearchWord = styled.p<{ bgcolor?: string }>`
   font-weight: normal;
   margin: 0 -1.5rem;
   padding: 0.5rem 1.5rem;
-  background-color: ${props => (props.bgcolor ? props.bgcolor : 'inherit')};
+  background-color: ${props => props.bgcolor || 'inherit'};
 
   &:hover {
     background-color: var(--skyblue);
