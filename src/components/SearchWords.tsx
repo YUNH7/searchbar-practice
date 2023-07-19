@@ -1,17 +1,23 @@
+import { KeyboardEvent, LegacyRef, useState } from 'react';
 import { styled } from 'styled-components';
 import { Trial } from '../hooks/useSearch';
 
 const WordsBox = styled.ul`
   display: flex;
   flex-direction: column;
+
+  &:focus {
+    outline: none;
+  }
 `;
-export const SearchWord = styled.p`
+export const SearchWord = styled.p<{ bgcolor?: boolean }>`
+  cursor: pointer;
   display: flex;
   align-items: center;
   font-weight: normal;
   margin: 0 -1.5rem;
   padding: 0.5rem 1.5rem;
-  cursor: pointer;
+  background-color: ${props => (props.bgcolor ? 'var(--skyblue)' : 'inherit')};
 
   &:hover {
     background-color: var(--skyblue);
@@ -27,23 +33,46 @@ export const SearchWord = styled.p`
 `;
 
 interface Props {
+  listRef: LegacyRef<HTMLUListElement>;
   nowWord?: string;
   words: Trial[];
   searchWord: (word: string) => void;
 }
 
-const SearchWords = ({ nowWord, words, searchWord }: Props) => {
+const SearchWords = ({ listRef, nowWord, words, searchWord }: Props) => {
+  const [tabIndex, setTabIndex] = useState(-1);
+
+  const moveList = (e: KeyboardEvent<HTMLUListElement>) => {
+    switch (e.key) {
+      case 'ArrowUp':
+        setTabIndex(pre => (pre <= 0 ? words.length - 1 : pre - 1));
+        break;
+      case 'ArrowDown':
+        setTabIndex(pre => (pre >= words.length - 1 ? 0 : pre + 1));
+        break;
+    }
+  };
+
   return (
-    <WordsBox>
-      {words.map(word => (
+    <WordsBox
+      ref={listRef}
+      tabIndex={0}
+      onFocus={() => setTabIndex(0)}
+      onBlur={() => setTabIndex(-1)}
+      onKeyUp={e => e.key === 'Enter' && searchWord(words[tabIndex].sickNm)}
+      onKeyDown={moveList}
+    >
+      {words.map((word, i) => (
         <li key={word.sickCd || word.sickNm}>
-          <SearchWord onClick={() => searchWord(word.sickNm)}>
-            {nowWord
-              ? word.sickNm
-                  .replaceAll(nowWord, `*#${nowWord}*#`)
-                  .split('*#')
-                  .map((el, i) => (el === nowWord ? <b key={i}>{el}</b> : el))
-              : word.sickNm}
+          <SearchWord bgcolor={tabIndex === i} onClick={() => searchWord(word.sickNm)}>
+            <span>
+              {nowWord
+                ? word.sickNm
+                    .replaceAll(nowWord, `*#${nowWord}*#`)
+                    .split('*#')
+                    .map((el, i) => (el === nowWord ? <b key={i}>{el}</b> : el))
+                : word.sickNm}
+            </span>
           </SearchWord>
         </li>
       ))}

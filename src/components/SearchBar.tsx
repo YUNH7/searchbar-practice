@@ -1,3 +1,4 @@
+import { KeyboardEvent, useRef } from 'react';
 import { styled } from 'styled-components';
 import { SpreadBox } from '.';
 import { ReactComponent as SearchIcon } from '../assets/search.svg';
@@ -84,6 +85,16 @@ interface SpreadProps {
 
 const SearchBar = ({ spread, setSpread }: SpreadProps) => {
   const { nowWord, searchWord, savePreWord, spreadProps } = useSearch();
+  const listRef = useRef<HTMLUListElement>(null);
+
+  const moveToSpread = (e: KeyboardEvent<HTMLInputElement>) => {
+    setSpread(true);
+    if (e.key === 'ArrowDown') {
+      if (listRef?.current) {
+        listRef.current.focus();
+      }
+    } else if (e.key === 'Escape') setSpread(false);
+  };
 
   return (
     <Container onClick={e => e.stopPropagation()}>
@@ -93,12 +104,13 @@ const SearchBar = ({ spread, setSpread }: SpreadProps) => {
         onClick={() => setSpread(true)}
         onChange={e => searchWord(e.target.value)}
         onKeyUp={e => e.key === 'Enter' && savePreWord()}
+        onKeyDown={moveToSpread}
       />
       <SearchButton onClick={() => savePreWord()}>
         <span>검색버튼</span>
         <SearchIcon />
       </SearchButton>
-      <SpreadBox spread={spread} {...spreadProps} />
+      <SpreadBox spread={spread} listRef={listRef} {...spreadProps} />
     </Container>
   );
 };

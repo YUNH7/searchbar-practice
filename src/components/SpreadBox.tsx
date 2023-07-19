@@ -1,3 +1,4 @@
+import { LegacyRef } from 'react';
 import { styled } from 'styled-components';
 import { KeyWords, SearchWords, SearchWord } from '.';
 import { recommendedWords } from '../constants/recommendedWords';
@@ -37,13 +38,21 @@ const NoWord = styled.p`
 
 interface Search {
   spread: boolean;
+  listRef: LegacyRef<HTMLUListElement>;
   nowWord: string;
   historyWords: Trial[];
   foundTrials: Trial[];
   searchKeyWord: (word: string) => void;
 }
 
-const SpreadBox = ({ spread, nowWord, historyWords, foundTrials, searchKeyWord }: Search) => {
+const SpreadBox = ({
+  spread,
+  listRef,
+  nowWord,
+  historyWords,
+  foundTrials,
+  searchKeyWord,
+}: Search) => {
   return (
     <Box display={spread ? 'block' : 'none'}>
       {nowWord ? (
@@ -55,7 +64,12 @@ const SpreadBox = ({ spread, nowWord, historyWords, foundTrials, searchKeyWord }
           </div>
           <div>
             <SubTitle>{!!foundTrials.length ? '추천 검색어' : '검색어 없음'}</SubTitle>
-            <SearchWords nowWord={nowWord} words={foundTrials} searchWord={searchKeyWord} />
+            <SearchWords
+              listRef={listRef}
+              nowWord={nowWord}
+              words={foundTrials}
+              searchWord={searchKeyWord}
+            />
           </div>
         </>
       ) : (
@@ -63,7 +77,7 @@ const SpreadBox = ({ spread, nowWord, historyWords, foundTrials, searchKeyWord }
           <div>
             <SubTitle>최근 검색어</SubTitle>
             {historyWords.length ? (
-              <SearchWords words={historyWords} searchWord={searchKeyWord} />
+              <SearchWords listRef={listRef} words={historyWords} searchWord={searchKeyWord} />
             ) : (
               <NoWord>최근 검색어가 없습니다</NoWord>
             )}
