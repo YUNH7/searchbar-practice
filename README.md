@@ -2,7 +2,7 @@
 
 **[한국임상정보](https://clinicaltrialskorea.com/)의 검색영역 클론하기**
 
-[screen-searchbar.webm](https://github.com/YUNH7/searchbar-practice/assets/113083398/4dd765f9-d3e4-4141-9b03-0fbd5016087d)
+[screen-searchbar.webm](https://github.com/YUNH7/searchbar-practice/assets/113083398/f5bf65cd-159f-4dbc-aa69-2dbbaca359e7)
 
 <br>
 
