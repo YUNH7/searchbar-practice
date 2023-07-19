@@ -20,17 +20,16 @@ const searchTrial = (() => {
   return async (word: string) => {
     if (!word.length) return [];
 
-    const firstLetter = word.slice(0, 1);
-    let cached: Caching = reqHistory[firstLetter];
+    let cached: Caching = reqHistory[word];
     if (!cached || +new Date() - +cached.date > 5 * 60 * 1000) {
-      await trialAPI(`/sick?q=${firstLetter}`)
+      await trialAPI(`/sick?q=${word}`)
         .then(res => {
           console.info('calling api');
           return res;
         })
         .then((res: any) => {
-          reqHistory[firstLetter] = { date: new Date(), data: res.data };
-          cached = reqHistory[firstLetter];
+          reqHistory[word] = { date: new Date(), data: res.data };
+          cached = reqHistory[word];
         })
         .catch(err => {
           console.error(err);
@@ -38,8 +37,7 @@ const searchTrial = (() => {
         });
     }
 
-    if (word.length === 1) return cached.data;
-    else return cached.data.filter(el => el.sickNm.includes(word));
+    return cached.data;
   };
 })();
 

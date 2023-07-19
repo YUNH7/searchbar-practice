@@ -5,11 +5,14 @@ const useSearch = () => {
   const [nowWord, setNowWord] = useState('');
   const [searchHistory, setSearchHistory] = useState<Trial[]>([]);
   const [foundTrials, setFoundTrials] = useState<Trial[]>([]);
+  const [timer, setTimer] = useState(-1);
 
   const searchWord = async (word: string) => {
     setNowWord(word);
-    const searchData = await searchTrial(word);
-    setFoundTrials(searchData);
+
+    clearTimeout(timer);
+    const newTimer = setTimeout(() => searchTrial(word).then(data => setFoundTrials(data)), 300);
+    setTimer(newTimer);
   };
 
   const savePreWord = (word: string = nowWord) =>
@@ -20,6 +23,7 @@ const useSearch = () => {
     searchWord(word);
     savePreWord(word);
   };
+
   const spreadProps = {
     nowWord,
     historyWords: searchHistory.slice(0, 7).reverse(),
