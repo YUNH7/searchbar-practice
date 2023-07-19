@@ -2,10 +2,45 @@ import axios from 'axios';
 
 const trialAPI = axios.create({ baseURL: import.meta.env.VITE_ASSIGNMENT_API });
 
-const searchTrial = (word: string) =>
-  trialAPI(`/sick?q=${word}`).then(res => {
-    console.info('calling api');
-    return res;
-  });
+export type Trial = {
+  sickCd?: string;
+  sickNm: string;
+};
+type Caching = {
+  date: Date;
+  data: Trial[];
+};
+type History = {
+  [key: string]: Caching;
+};
+
+const searchTrial = (() => {
+  const reqHistory: History = {};
+
+  return async (word: string) => {
+    if (!word.length) return [];
+
+    const firstLetter = word.slice(0, 1);
+    let cached: Caching = reqHistory[firstLetter];
+    if (!cached || +new Date() - +cached.date > 5 * 60 * 1000) {
+      await trialAPI(`/sick?q=${firstLetter}`)
+        .then(res => {
+          console.info('calling api');
+          return res;
+        })
+        .then((res: any) => {
+          reqHistory[firstLetter] = { date: new Date(), data: res.data };
+          cached = reqHistory[firstLetter];
+        })
+        .catch(err => {
+          console.error(err);
+          return [];
+        });
+    }
+
+    if (word.length === 1) return cached.data;
+    else return cached.data.filter(el => el.sickNm.includes(word));
+  };
+})();
 
 export default searchTrial;

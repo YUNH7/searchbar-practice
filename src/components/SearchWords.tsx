@@ -1,6 +1,6 @@
 import { KeyboardEvent, LegacyRef, useState } from 'react';
 import { styled } from 'styled-components';
-import { Trial } from '../hooks/useSearch';
+import { Trial } from '../apis/search';
 
 const WordsBox = styled.ul`
   display: flex;

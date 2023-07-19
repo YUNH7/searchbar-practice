@@ -2,7 +2,7 @@ import { LegacyRef } from 'react';
 import { styled } from 'styled-components';
 import { KeyWords, SearchWords, SearchWord } from '.';
 import { recommendedWords } from '../constants/recommendedWords';
-import { Trial } from '../hooks/useSearch';
+import { Trial } from '../apis/search';
 
 const Box = styled.div<{ display: string }>`
   position: absolute;
