@@ -1,6 +1,8 @@
 # Week 4
 
-[한국임상정보](https://clinicaltrialskorea.com/)의 검색영역 클론하기
+**[한국임상정보](https://clinicaltrialskorea.com/)의 검색영역 클론하기**
+
+[screen-searchbar.webm](https://github.com/YUNH7/searchbar-practice/assets/113083398/4dd765f9-d3e4-4141-9b03-0fbd5016087d)
 
 <br>
 
@@ -8,7 +10,7 @@
 
 ### [배포 링크](https://searchbar-practice.vercel.app/)
 
-> **서버 실행 필요([서버 실행 방법](https://github.com/walking-sunset/assignment-api))**
+> [서버 실행 필요](#프로젝트-실행)
 
 ### 주요 기능
 
@@ -68,10 +70,10 @@
 
 ## 프로젝트 실행
 
-> **서버 실행 필요([서버 실행 방법](https://github.com/walking-sunset/assignment-api))**
+> 서버 실행 필요([서버 실행 방법](https://github.com/walking-sunset/assignment-api))
 
 1. 설치 `npm install`
-2. 서버 env 파일 설정(변수명 : `VITE_ASSIGNMENT_API`)
+2. 서버 env 파일 설정(`VITE_ASSIGNMENT_API=baseurl`)
 3. 실행 `npm run start`
 
 <br>
