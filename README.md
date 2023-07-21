@@ -2,7 +2,7 @@
 
 **[한국임상정보](https://clinicaltrialskorea.com/)의 검색영역 클론하기**
 
-[screen-searchbar.webm](https://github.com/YUNH7/searchbar-practice/assets/113083398/f5bf65cd-159f-4dbc-aa69-2dbbaca359e7)
+[screen-searchbar.webm](https://github.com/YUNH7/searchbar-practice/assets/113083398/8d2133f7-9a42-4c82-b62e-5e87c00d33e0)
 
 <br>
 
@@ -48,7 +48,7 @@
   검색어를 포함하고 있는 값만 filter하여 리턴 시킴~~
 - debounce로 변경  
   setTimeout을 사용하여 마지막 입력 0.3초 후에 api 호출하도록 구현  
-  (0.3초가 지나기 전에 추가로 입력할 경우 기존 timer가 초기화되어 api를 호출하지 않도록 구현)
+  (0.3초가 지나기 전에 추가로 입력할 경우 기존 timer가 초기화되어 이전 호출을 실행하지 않음)
 
 </div>
 </details>
