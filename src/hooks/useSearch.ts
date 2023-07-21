@@ -6,11 +6,11 @@ const useSearch = () => {
   const [nowWord, setNowWord] = useState('');
   const [searchHistory, setSearchHistory] = useState<Trial[]>([]);
   const [foundTrials, setFoundTrials] = useState<Trial[]>([]);
-  const debounce = useDebounce(300);
+  const debounce = useDebounce();
 
   const searchWord = async (word: string) => {
     setNowWord(word);
-    debounce(() => searchTrial(word).then(data => setFoundTrials(data)));
+    debounce(() => searchTrial(word).then(data => setFoundTrials(data)), 300);
   };
 
   const savePreWord = (word: string = nowWord) =>

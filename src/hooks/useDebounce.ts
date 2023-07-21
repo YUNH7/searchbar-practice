@@ -1,12 +1,10 @@
-import { useState } from 'react';
+import { useRef } from 'react';
 
-const useDebounce = (time: number) => {
-  const [timer, setTimer] = useState(-1);
-
-  return (callback: () => void) => {
-    clearTimeout(timer);
-    const newTimer = setTimeout(callback, time);
-    setTimer(newTimer);
+const useDebounce = () => {
+  const timerId = useRef<number>();
+  return (callback: () => void, time: number) => {
+    if (timerId.current) clearTimeout(timerId.current);
+    timerId.current = setTimeout(callback, time);
   };
 };
 
